@@ -7,7 +7,7 @@ import json
 from json import loads
 
 
-def pdf_process_function(msg):
+def function(msg):
   print(" processing")
   print(" Received %r" % msg)
 
@@ -60,15 +60,15 @@ url = os.environ.get('CLOUDAMQP_URL', 'amqp://hgtgexcy:rXte959Mz0_E57VOqlI5_1YkW
 params = pika.URLParameters(url)
 connection = pika.BlockingConnection(params)
 channel = connection.channel() # start a channel
-channel.queue_declare(queue='pdfprocess1') # Declare a queue
+channel.queue_declare(queue='process1') # Declare a queue
 
 # create a function which is called on incoming messages
 def callback(ch, method, properties, body):
-  pdf_process_function(body)
+  process_function(body)
 
 # set up subscription on the queue
 channel.basic_consume(callback,
-  queue='pdfprocess1',
+  queue='process1',
   no_ack=True)
 
 # start consuming (blocks)
